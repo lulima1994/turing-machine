@@ -1,10 +1,47 @@
 package mt;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Maquina {
     private final List<Estado> estados = new ArrayList<>();
+
+    public void lerArquivo() throws IOException, URISyntaxException {
+        URL caminhoArquivo = MTU.class.getResource("/input.txt");
+        RandomAccessFile leitor = new RandomAccessFile(new File(caminhoArquivo.toURI()), "r");
+        String linha = leitor.readLine();
+        String[] estados = linha.split(";");
+        Maquina maquina = new Maquina();
+
+        for (String estado : estados) {
+            maquina.adicionarEstado(estado);
+        }
+        linha = leitor.readLine();
+        estados = linha.split(";");
+        for (String estado : estados) {
+            maquina.definirEstadoFinal(estado);
+        }
+
+        while (leitor.getFilePointer() < leitor.length()) {
+            linha = leitor.readLine();
+            String[] dadosConexao = linha.split(";");
+            Conexao conexao = new Conexao();
+            conexao.setLerEstado(dadosConexao[1]);
+            conexao.setEscreverEstado(dadosConexao[2]);
+            conexao.setMoverEstado(dadosConexao[3]);
+            Estado origem = maquina.buscarEstadoNome(dadosConexao[0]);
+            origem.adicionarConexao(conexao);
+            Estado destino = maquina.buscarEstadoNome(dadosConexao[4]);
+            conexao.setDestino(destino);
+        }
+        leitor.close();
+        MTU.executarTeste(maquina, "1");
+    }
 
     public void adicionarEstado(String nome) {
         Estado estado = new Estado(nome);

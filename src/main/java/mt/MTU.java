@@ -1,33 +1,32 @@
 package mt;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.util.Scanner;
 
 public class MTU {
 
-    public static void main(String[] args) throws IOException, URISyntaxException {
-        URL caminhoArquivo = MTU.class.getResource("/input.txt");
-        RandomAccessFile leitor = new RandomAccessFile(new File(caminhoArquivo.toURI()), "r");
-        String linha = leitor.readLine();
-        String[] estados = linha.split(";");
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         Maquina maquina = new Maquina();
+        Conexao conexao = new Conexao();
 
+        System.out.println("adicionar estado");
+        var linha = scanner.nextLine();
+        var estados = linha.split(" ");
         for (String estado : estados) {
             maquina.adicionarEstado(estado);
         }
-        linha = leitor.readLine();
-        estados = linha.split(";");
+
+        System.out.println("adicionar estado final");
+        linha = scanner.nextLine();
+        estados = linha.split(" ");
         for (String estado : estados) {
             maquina.definirEstadoFinal(estado);
         }
 
-        while (leitor.getFilePointer() < leitor.length()) {
-            linha = leitor.readLine();
-            String[] dadosConexao = linha.split(";");
-            Conexao conexao = new Conexao();
+        System.out.println("adicionar conexao");
+        while (!scanner.nextLine().equals("")) {
+            linha = scanner.nextLine();
+            var dadosConexao = linha.split(" ");
             conexao.setLerEstado(dadosConexao[1]);
             conexao.setEscreverEstado(dadosConexao[2]);
             conexao.setMoverEstado(dadosConexao[3]);
@@ -36,16 +35,19 @@ public class MTU {
             Estado destino = maquina.buscarEstadoNome(dadosConexao[4]);
             conexao.setDestino(destino);
         }
-        leitor.close();
-//        executarTeste(maquina, "1");
+
+        System.out.println("adicionar fita");
+        linha = scanner.nextLine();
+        executarTeste(maquina, linha);
+
+        scanner.close();
     }
 
     public static void executarTeste(Maquina maquina, String fita) {
         System.out.println("processando fita: " + fita);
-//        maquina.processar(new String[]{"0","0","1","0","1","1","1","1"});
-        if (maquina.processar(fita.split(";")))
+        if (maquina.processar(fita.split(" ")))
             System.out.println("valido");
         else
-            System.out.println("nao valido");
+            System.out.println("invalido");
     }
 }
