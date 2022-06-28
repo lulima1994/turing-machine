@@ -7,39 +7,37 @@ public class MTU {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Maquina maquina = new Maquina();
-        Conexao conexao = new Conexao();
 
-        System.out.println("adicionar estado");
-        var linha = scanner.nextLine();
-        var estados = linha.split(" ");
-        for (String estado : estados) {
-            maquina.adicionarEstado(estado);
+        while (true) {
+            var linha = scanner.nextLine();
+            var comandos = linha.split(" ");
+
+            if (comandos[0].equals("adicionar")) {
+                if (comandos[1].equals("estado")) {
+                    maquina.adicionarEstado(comandos[2]);
+                } else if (comandos[1].equals("conexao")) {
+                    Conexao conexao = new Conexao();
+                    conexao.setLerElemento(comandos[3]);
+                    conexao.setEscreverElemento(comandos[4]);
+                    conexao.setMoverElemento(comandos[5]);
+                    Estado origem = maquina.buscarEstadoNome(comandos[2]);
+                    origem.adicionarConexao(conexao);
+                    Estado destino = maquina.buscarEstadoNome(comandos[6]);
+                    conexao.setDestino(destino);
+                }
+            } else if (comandos[0].equals("definir")) {
+                if (comandos[1].equals("estado")) {
+                    if (comandos[2].equals("final")) {
+                        maquina.definirEstadoFinal(comandos[3]);
+                    }
+                }
+            } else if (comandos[0].equals("sair")) {
+                System.out.println("adicionar fita");
+                linha = scanner.nextLine();
+                executarTeste(maquina, linha);
+                break;
+            }
         }
-
-        System.out.println("adicionar estado final");
-        linha = scanner.nextLine();
-        estados = linha.split(" ");
-        for (String estado : estados) {
-            maquina.definirEstadoFinal(estado);
-        }
-
-        System.out.println("adicionar conexao");
-        while (!scanner.nextLine().equals("")) {
-            linha = scanner.nextLine();
-            var dadosConexao = linha.split(" ");
-            conexao.setLerEstado(dadosConexao[1]);
-            conexao.setEscreverEstado(dadosConexao[2]);
-            conexao.setMoverEstado(dadosConexao[3]);
-            Estado origem = maquina.buscarEstadoNome(dadosConexao[0]);
-            origem.adicionarConexao(conexao);
-            Estado destino = maquina.buscarEstadoNome(dadosConexao[4]);
-            conexao.setDestino(destino);
-        }
-
-        System.out.println("adicionar fita");
-        linha = scanner.nextLine();
-        executarTeste(maquina, linha);
-
         scanner.close();
     }
 

@@ -1,33 +1,33 @@
 package mt;
 
 public class Conexao {
-    private String lerEstado;
-    private String escreverEstado;
-    private String moverEstado;
+    private String lerElemento;
+    private String escreverElemento;
+    private String moverElemento;
     private Estado destino;
 
-    public String getLerEstado() {
-        return lerEstado;
+    public String getLerElemento() {
+        return lerElemento;
     }
 
-    public void setLerEstado(String lerEstado) {
-        this.lerEstado = lerEstado;
+    public void setLerElemento(String lerElemento) {
+        this.lerElemento = lerElemento;
     }
 
-    public String getEscreverEstado() {
-        return escreverEstado;
+    public String getEscreverElemento() {
+        return escreverElemento;
     }
 
-    public void setEscreverEstado(String escreverEstado) {
-        this.escreverEstado = escreverEstado;
+    public void setEscreverElemento(String escreverElemento) {
+        this.escreverElemento = escreverElemento;
     }
 
-    public String getMoverEstado() {
-        return moverEstado;
+    public String getMoverElemento() {
+        return moverElemento;
     }
 
-    public void setMoverEstado(String moverEstado) {
-        this.moverEstado = moverEstado;
+    public void setMoverElemento(String moverElemento) {
+        this.moverElemento = moverElemento;
     }
 
     public Estado getDestino() {

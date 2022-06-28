@@ -31,9 +31,9 @@ public class Maquina {
             linha = leitor.readLine();
             String[] dadosConexao = linha.split(";");
             Conexao conexao = new Conexao();
-            conexao.setLerEstado(dadosConexao[1]);
-            conexao.setEscreverEstado(dadosConexao[2]);
-            conexao.setMoverEstado(dadosConexao[3]);
+            conexao.setLerElemento(dadosConexao[1]);
+            conexao.setEscreverElemento(dadosConexao[2]);
+            conexao.setMoverElemento(dadosConexao[3]);
             Estado origem = maquina.buscarEstadoNome(dadosConexao[0]);
             origem.adicionarConexao(conexao);
             Estado destino = maquina.buscarEstadoNome(dadosConexao[4]);
@@ -72,10 +72,10 @@ public class Maquina {
                     throw new RuntimeException("loop detectado");
                 String leituraAtual = fita[posicaoAtual];
                 Conexao conexaoEncontrada = estadoAtual.buscarConexaoLeitura(leituraAtual);
-                fita[posicaoAtual] = conexaoEncontrada.getEscreverEstado();
-                if (conexaoEncontrada.getMoverEstado().equals("D"))
+                fita[posicaoAtual] = conexaoEncontrada.getEscreverElemento();
+                if (conexaoEncontrada.getMoverElemento().equals("D"))
                     posicaoAtual++;
-                else if (conexaoEncontrada.getMoverEstado().equals("E"))
+                else if (conexaoEncontrada.getMoverElemento().equals("E"))
                     posicaoAtual--;
                 else throw new RuntimeException("direcao invalida");
                 estadoAtual = conexaoEncontrada.getDestino();

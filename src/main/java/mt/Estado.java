@@ -19,7 +19,7 @@ public class Estado {
 
     public Conexao buscarConexaoLeitura(String lerEstado) {
         for (Conexao conexao : conexoes) {
-            if (conexao.getLerEstado().equals(lerEstado))
+            if (conexao.getLerElemento().equals(lerEstado))
                 return conexao;
         }
         throw new RuntimeException("conexao nao encontrada");
